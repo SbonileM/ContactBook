@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API Key</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f2f4f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input[type="email"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .message {
+            color: #555;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Enter API Key</h2>
+        <div class="message">Please enter a valid API key.</div>
+        <form>
+            <input type="email" id="apiKey" name="apiKey" placeholder="Enter API key (email)">
+            <button id="submitApiKey">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        let rootPath = "https://mysite.itvarsity.org/api/ContactBook/";
+        document.getElementById("submitApiKey").addEventListener('click', setApiKey);
+
+        function setApiKey(e) {
+            e.preventDefault();
+
+            const apiKey = document.getElementById("apiKey").value;
+            fetch(rootPath + "controller/api-key/?apiKey=" + apiKey)
+                .then(response => response.text())
+                .then(data => {
+                    if (data == "1") {
+                        localStorage.setItem("apiKey", apiKey);
+                        window.open("index.html", "_self");
+                    } else {
+                        alert("Invalid API key entered!");
+                    }
+                });
+        }
+    </script>
+</body>
+</html>
